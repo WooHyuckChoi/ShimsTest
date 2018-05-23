@@ -68,9 +68,9 @@ def bugzilla(ALERTID=None, TOKEN=None, PRODUCT=None, COMPONENT=None, VERSION=Non
     # Defaults to Content-type: application/json
     # If changed you must specify the content-type manually
     #원본
-    # headers = {'Content-type': 'application/json', 'Accept': 'application/json'}
+    headers = {'Content-type': 'application/json', 'Accept': 'application/json'}
     #원본 끝
-    headers = {'Content-type': 'application/json', 'Accept': 'application/vnd.tosslab.jandi-v2+json'}
+    #headers = {'Content-type': 'application/json', 'Accept': 'application/vnd.tosslab.jandi-v2+json'}
 
     # Get the list of open bugs that contain the AlertName from the incoming webhook
     bug = callapi(BUGZILLAURL + '/rest/bug?' + auth + '&product=' + PRODUCT + '&component=' + COMPONENT + '&summary=' + a['AlertName'], 'get', None, headers, None, VERIFY)
