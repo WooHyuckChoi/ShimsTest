@@ -3,7 +3,7 @@
 import os, sys
 from setuptools import setup, find_packages
 from setuptools.command.test import test as TestCommand
-from pip.req import parse_requirements
+from pip import parse_requirements
 
 try:
     from loginsightwebhookdemo import __version__ as loginsightwebhookdemoversion  # TODO Replace with a static variant?
