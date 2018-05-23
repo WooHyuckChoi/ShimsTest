@@ -12,7 +12,7 @@ __verion__ = "1.1"
 
 
 # Parameters
-BUGZILLAURL = 'https://wh.jandi.com/connect-api/webhook/15292345/a76ad35760d264ff84ddc964e35efa2f'
+BUGZILLAURL = ''
 # Basic auth -- required if BASIC or TOKEN is not passed in URL
 BUGZILLAUSER = ''
 BUGZILLAPASS = ''
@@ -67,10 +67,7 @@ def bugzilla(ALERTID=None, TOKEN=None, PRODUCT=None, COMPONENT=None, VERSION=Non
 
     # Defaults to Content-type: application/json
     # If changed you must specify the content-type manually
-    #원본
     headers = {'Content-type': 'application/json', 'Accept': 'application/json'}
-    #원본 끝
-    #headers = {'Content-type': 'application/json', 'Accept': 'application/vnd.tosslab.jandi-v2+json'}
 
     # Get the list of open bugs that contain the AlertName from the incoming webhook
     bug = callapi(BUGZILLAURL + '/rest/bug?' + auth + '&product=' + PRODUCT + '&component=' + COMPONENT + '&summary=' + a['AlertName'], 'get', None, headers, None, VERIFY)
@@ -89,22 +86,12 @@ def bugzilla(ALERTID=None, TOKEN=None, PRODUCT=None, COMPONENT=None, VERSION=Non
             payload = { 'comment': { 'body': a['moreinfo'] } }
             return callapi(BUGZILLAURL + '/rest/bug/' + str(i['bugs'][0]['id']) + '?' + auth, 'put', json.dumps(payload), headers, None, VERIFY)
     except: # If no open bug then open one
-        ''' 원본
         payload = {
             "product" : PRODUCT,
             "component" : COMPONENT,
             "version" : VERSION,
             "summary" : a['AlertName'],
             "description": a['info'],
-        }
-        '''
-        payload = {
-            "body" : "Message",
-            "connectColor" : "#FAC11B",
-            "connectInfo" : [{
-            "title" : "Topping",
-            "description" : "Pepperoni"
-            }]
         }
         # op_sys and rep_platform may not be needed, but are to test on landfill
         if "landfill.bugzilla.org" in BUGZILLAURL:
