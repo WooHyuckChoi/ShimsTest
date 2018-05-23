@@ -63,14 +63,14 @@ def template(ALERTID=None, TOKEN=None, EMAIL=None):
 
     payload = {
         "body": a['info'],
-        "connectColor" : "#FAC11B"
+        "connectColor" : "#FAC11B",
         "connectInfo":[{
             "title": a['AlertName']}]
     }
 
     # Defaults to Content-type: application/json
     # If changed you must specify the content-type manually
-    headers = {'Content-type': 'application/json', 'Accept: application/vnd.tosslab.jandi-v2+json'}
+    headers = {'Content-type': 'application/json', 'Accept': 'application/vnd.tosslab.jandi-v2+json'}
     if not headers:
         headers = None
 
