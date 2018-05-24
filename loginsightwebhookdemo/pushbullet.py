@@ -11,10 +11,10 @@ __verion__ = "1.1"
 
 
 # Pushbullet URL, probably doesn't need to be changed
-PUSHBULLETURL = 'https://api.pushbullet.com/v2/pushes'
+PUSHBULLETURL = 'https://wh.jandi.com/connect-api/webhook/15292345/a76ad35760d264ff84ddc964e35efa2f'
 # Obtain the Pushbullet Access Token from https://www.pushbullet.com/#settings/account
 # Protect this access token - anyone who has access to it will be able to perform actions on your behalf.
-PUSHBULLETTOKEN = ''
+PUSHBULLETTOKEN = 'aa'
 
 
 @app.route("/endpoint/pushbullet", methods=['POST'])
@@ -26,13 +26,15 @@ def pushbullet(ALERTID=None, TOKEN=None):
     Send a `link` notification to all devices on pushbullet with a link back to the alert's query.
     If `TOKEN` is not passed, requires `PUSHBULLETTOKEN` defined, see https://www.pushbullet.com/#settings/account
     """
-    if not PUSHBULLETURL:
-        return ("PUSHBULLET parameter must be set, please edit the shim!", 500, None)
-    if (TOKEN is not None):
-        PUSHBULLETTOKEN = TOKEN
+    #if not PUSHBULLETURL:
+        #return ("PUSHBULLET parameter must be set, please edit the shim!", 500, None)
+    #if (TOKEN is not None):
+        #PUSHBULLETTOKEN = TOKEN
+    #if not PUSHBULLETTOKEN:
+     #   return ("PUSHBULLETTOKEN parameter must be set, please edit the shim!", 500, None)
     if not PUSHBULLETTOKEN:
-        return ("PUSHBULLETTOKEN parameter must be set, please edit the shim!", 500, None)
-
+        return ("fail", 500, None)
+    
     a = parse(request)
 
     payload = {
@@ -42,6 +44,6 @@ def pushbullet(ALERTID=None, TOKEN=None):
         "url": a['url'],
     }
 
-    headers = {'Content-type': 'application/json', 'Access-Token': PUSHBULLETTOKEN}
+    headers = {'Content-type': 'application/json', 'Accept': 'application/vnd.tosslab.jandi-v2+json'}
 
     return callapi(PUSHBULLETURL, 'post', json.dumps(payload), headers)
