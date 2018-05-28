@@ -217,7 +217,7 @@ def callapi(url, method='post', payload=None, headers=None, auth=None, check=Tru
     Logs and re-raises any exceptions.
     """
     if not headers:
-        headers = {'Content-type': 'application/json'}
+        headers = {'Content-type': 'application/json', 'Accept': 'application/vnd.tosslab.jandi-v2+json' }
     try:
         logging.info("URL=%s" % url)
         logging.info("Auth=%s" % str(auth))
