@@ -13,21 +13,21 @@ __version__ = "2.1"
 
 
 # Slack incoming webhook URL. For more information see https://api.slack.com/incoming-webhooks
-SLACKURL = 'https://wh.jandi.com/connect-api/webhook/15292345/a76ad35760d264ff84ddc964e35efa2f'
+SLACKURL = ''
 
 
-def slack_fields(color):
+def slack_fields(color, message):
     return {
-        "body" :  "[[PizzaHouse]](http://url_to_text) You have a new Pizza order.",
-        "connectColor": color,
-        "connectInfo": [{  # start of dict comprehension
-                #"title": f['name'],
-                #"value": f['content'],
-                #"short": True if len(f['content']) < 20 else False
-                "title" : "Topping",
-                "description" : "Pepperoni"
-            }] #for f in message['fields'] if not f['name'].startswith('__')
-        #]
+        "color": color,
+        "fallback": message.get('text', '') if 'text' in message else "Alert details",
+        "text": message.get('text', '') if 'text' in message else "Alert details",
+        "fields": [
+            {  # start of dict comprehension
+                "title": f['name'],
+                "value": f['content'],
+                "short": True if len(f['content']) < 20 else False
+            } for f in message['fields'] if not f['name'].startswith('__')
+        ]
     }
 
 
@@ -45,20 +45,18 @@ def slack(NUMRESULTS=10, ALERTID=None, T=None, B=None, X=None):
     For more information, see https://api.slack.com/incoming-webhooks
     """
     # Prefer URL parameters to SLACKURL
-    #if X is not None:
-    #    URL = 'https://hooks.slack.com/services/' + T + '/' + B + '/' + X
-    #elif not SLACKURL or not 'https://hooks.slack.com/services' in SLACKURL:
-    #    return ("SLACKURL parameter must be set properly, please edit the shim!", 500, None)
-    #else:
+    if X is not None:
+        URL = 'https://hooks.slack.com/services/' + T + '/' + B + '/' + X
+    elif not SLACKURL or not 'https://hooks.slack.com/services' in SLACKURL:
+        return ("SLACKURL parameter must be set properly, please edit the shim!", 500, None)
+    else:
         URL = SLACKURL
 
     a = parse(request)
 
     slack_attachments = []
-    
-    if (a['color'] == '#FAC11B'):
-       color = '#FAC11B'
-    """
+    if (a['color'] == 'red'):
+        color = 'danger'
     elif (a['color'] == 'yellow'):
         color = 'warning'
     else:
@@ -66,26 +64,20 @@ def slack(NUMRESULTS=10, ALERTID=None, T=None, B=None, X=None):
     payload = {
         "icon_url": a['icon'],
     }
-    """
-    """
     try:
         if ('AlertName' in a):
             slack_attachments.append({ "pretext": a['moreinfo'], })
             if ('Messages' in a):
                 for message in a['Messages'][:NUMRESULTS]:
-    """
-                    slack_attachments.append(slack_fields(color))#, message))
-    """
+                    slack_attachments.append(slack_fields(color, message))
             if a['fields']:
                 slack_attachments.append(slack_fields(color, a))
-    """
-    """
     except:
         logging.exception("Can't create new payload. Check code and try again.")
         raise
-    """
+
     payload.update({
-        "username": 'aaa',
+        "username": a['hookName'],
         "attachments": slack_attachments
     })
     return callapi(URL, 'post', json.dumps(payload))
