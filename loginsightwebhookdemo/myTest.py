@@ -20,7 +20,7 @@ __verion__ = "1.0"
 
 
 # Parameters
-TEMPLATEURL = ''
+TEMPLATEURL = 'https://wh.jandi.com/connect-api/webhook/15292345/a76ad35760d264ff84ddc964e35efa2f'
 # Basic auth
 #TEMPLATEUSER = ''
 #TEMPLATEPASS = ''
@@ -40,35 +40,36 @@ def template(ALERTID=None, TOKEN=None, EMAIL=None):
     Information about this shim.
     Requires TEMPLATE* parameters to be defined.
     """
-    if (not TEMPLATEURL or (not TEMPLATEUSER and not EMAIL) or (not TEMPLATEPASS and not TEMPLATETOKEN and not TOKEN)):
-        return ("TEMPLATE* parameters must be set, please edit the shim!", 500, None)
-    if not TEMPLATEUSER:
-        USER = EMAIL
-    else:
-        USER = TEMPLATEUSER
+    #if (not TEMPLATEURL or (not TEMPLATEUSER and not EMAIL) or (not TEMPLATEPASS and not TEMPLATETOKEN and not TOKEN)):
+    #    return ("TEMPLATE* parameters must be set, please edit the shim!", 500, None)
+    #if not TEMPLATEUSER:
+    #    USER = EMAIL
+    #else:
+    #    USER = TEMPLATEUSER
     # Prefer tokens over passwords
-    if TEMPLATETOKEN or TOKEN:
-        if TEMPLATETOKEN:
-            USER = USER + '/token'
-            PASS = TEMPLATETOKEN
-        else:
-            USER = USER + '/token'
-            PASS = TOKEN
-    else:
-        PASS = TEMPLATEPASS
+    #if TEMPLATETOKEN or TOKEN:
+    #    if TEMPLATETOKEN:
+    #        USER = USER + '/token'
+    #        PASS = TEMPLATETOKEN
+    #    else:
+    #        USER = USER + '/token'
+    #        PASS = TOKEN
+    #else:
+    #    PASS = TEMPLATEPASS
 
     a = parse(request)
 
     payload = {
         "body": a['info'],
-        "title": a['AlertName'],
-        "type": "link",
-        "url": a['url'],
+        "connectColor" : "#FAC11B",
+        "connectInfo" :{
+            "title": a['AlertName'],
+        }
     }
 
     # Defaults to Content-type: application/json
     # If changed you must specify the content-type manually
-    headers = {'Content-type': 'application/json', 'Accept': 'application/json'}
+    headers = {'Content-type': 'application/json', 'Accept': 'application/vnd.tosslab.jandi-v2+json'}
     if not headers:
         headers = None
 
