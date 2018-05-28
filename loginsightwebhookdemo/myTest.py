@@ -20,7 +20,7 @@ __verion__ = "1.0"
 
 
 # Parameters
-TEMPLATEURL = 'https://wh.jandi.com/connect-api/webhook/15292345/a76ad35760d264ff84ddc964e35efa2f'
+TEMPLATEURL = ''
 # Basic auth
 #TEMPLATEUSER = ''
 #TEMPLATEPASS = ''
@@ -61,14 +61,14 @@ def template(ALERTID=None, TOKEN=None, EMAIL=None):
 
     payload = {
         "body": a['info'],
-        "connectColor" : "#FAC11B",
-        "connectInfo":[{
-            "title": a['AlertName']}]
+        "title": a['AlertName'],
+        "type": "link",
+        "url": a['url'],
     }
 
     # Defaults to Content-type: application/json
     # If changed you must specify the content-type manually
-    headers = {'Content-type': 'application/json', 'Accept': 'application/vnd.tosslab.jandi-v2+json'}
+    headers = {'Content-type': 'application/json', 'Accept': 'application/json'}
     if not headers:
         headers = None
 
