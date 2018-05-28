@@ -29,12 +29,12 @@ TEMPLATEURL = 'https://wh.jandi.com/connect-api/webhook/15292345/a76ad35760d264f
 
 
 # Route without <ALERTID> are for LI, with are for vROps
-@app.route("/endpoint/template", methods=['POST'])
-@app.route("/endpoint/template/<ALERTID>", methods=['PUT'])
-@app.route("/endpoint/template/<TOKEN>", methods=['POST'])
-@app.route("/endpoint/template/<TOKEN>/<ALERTID>", methods=['PUT'])
-@app.route("/endpoint/template/<EMAIL>/<TOKEN>", methods=['POST'])
-@app.route("/endpoint/template/<EMAIL>/<TOKEN>/<ALERTID>", methods=['PUT'])
+@app.route("/endpoint/myTest", methods=['POST'])
+@app.route("/endpoint/myTest/<ALERTID>", methods=['PUT'])
+@app.route("/endpoint/myTest/<TOKEN>", methods=['POST'])
+@app.route("/endpoint/myTest/<TOKEN>/<ALERTID>", methods=['PUT'])
+@app.route("/endpoint/myTest/<EMAIL>/<TOKEN>", methods=['POST'])
+@app.route("/endpoint/myTest/<EMAIL>/<TOKEN>/<ALERTID>", methods=['PUT'])
 def template(ALERTID=None, TOKEN=None, EMAIL=None):
     """
     Information about this shim.
@@ -62,9 +62,9 @@ def template(ALERTID=None, TOKEN=None, EMAIL=None):
     payload = {
         "body": a['info'],
         "connectColor" : "#FAC11B",
-        "connectInfo" :{
+        "connectInfo" :[{
             "title": a['AlertName'],
-        }
+        }]
     }
 
     # Defaults to Content-type: application/json
