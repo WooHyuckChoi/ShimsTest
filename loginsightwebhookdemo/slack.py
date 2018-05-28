@@ -13,21 +13,21 @@ __version__ = "2.1"
 
 
 # Slack incoming webhook URL. For more information see https://api.slack.com/incoming-webhooks
-SLACKURL = ''
+SLACKURL = 'https://wh.jandi.com/connect-api/webhook/15292345/a76ad35760d264ff84ddc964e35efa2f'
 
 
-def slack_fields(color, message):
+def slack_fields(color):
     return {
-        "color": color,
-        "fallback": message.get('text', '') if 'text' in message else "Alert details",
-        "text": message.get('text', '') if 'text' in message else "Alert details",
-        "fields": [
-            {  # start of dict comprehension
-                "title": f['name'],
-                "value": f['content'],
-                "short": True if len(f['content']) < 20 else False
-            } for f in message['fields'] if not f['name'].startswith('__')
-        ]
+        "body" :  "[[PizzaHouse]](http://url_to_text) You have a new Pizza order.",
+        "connectColor": color,
+        "connectInfo": [{  # start of dict comprehension
+                #"title": f['name'],
+                #"value": f['content'],
+                #"short": True if len(f['content']) < 20 else False
+                "title" : "Topping",
+                "description" : "Pepperoni"
+            }] #for f in message['fields'] if not f['name'].startswith('__')
+        #]
     }
 
 
@@ -45,11 +45,11 @@ def slack(NUMRESULTS=10, ALERTID=None, T=None, B=None, X=None):
     For more information, see https://api.slack.com/incoming-webhooks
     """
     # Prefer URL parameters to SLACKURL
-    if X is not None:
-        URL = 'https://hooks.slack.com/services/' + T + '/' + B + '/' + X
-    elif not SLACKURL or not 'https://hooks.slack.com/services' in SLACKURL:
-        return ("SLACKURL parameter must be set properly, please edit the shim!", 500, None)
-    else:
+    #if X is not None:
+    #    URL = 'https://hooks.slack.com/services/' + T + '/' + B + '/' + X
+    #elif not SLACKURL or not 'https://hooks.slack.com/services' in SLACKURL:
+    #    return ("SLACKURL parameter must be set properly, please edit the shim!", 500, None)
+    #else:
         URL = SLACKURL
 
     a = parse(request)
