@@ -55,8 +55,10 @@ def slack(NUMRESULTS=10, ALERTID=None, T=None, B=None, X=None):
     a = parse(request)
 
     slack_attachments = []
-    if (a['color'] == 'red'):
-        color = 'danger'
+    
+    if (a['color'] == '#FAC11B'):
+       color = '#FAC11B'
+    """
     elif (a['color'] == 'yellow'):
         color = 'warning'
     else:
@@ -64,20 +66,26 @@ def slack(NUMRESULTS=10, ALERTID=None, T=None, B=None, X=None):
     payload = {
         "icon_url": a['icon'],
     }
+    """
+    """
     try:
         if ('AlertName' in a):
             slack_attachments.append({ "pretext": a['moreinfo'], })
             if ('Messages' in a):
                 for message in a['Messages'][:NUMRESULTS]:
-                    slack_attachments.append(slack_fields(color, message))
+    """
+                    slack_attachments.append(slack_fields(color))#, message))
+    """
             if a['fields']:
                 slack_attachments.append(slack_fields(color, a))
+    """
+    """
     except:
         logging.exception("Can't create new payload. Check code and try again.")
         raise
-
+    """
     payload.update({
-        "username": a['hookName'],
+        "username": 'aaa',
         "attachments": slack_attachments
     })
     return callapi(URL, 'post', json.dumps(payload))
