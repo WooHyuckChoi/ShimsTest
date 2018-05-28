@@ -11,10 +11,10 @@ __verion__ = "1.0"
 
 
 # Parameters
-JENKINSURL = ''
+JENKINSURL = 'https://wh.jandi.com/connect-api/webhook/15292345/a76ad35760d264ff84ddc964e35efa2f'
 # Only required if not passed
-JENKINSJOBNAME = ''
-JENKINSTOKEN = ''
+#JENKINSJOBNAME = ''
+#JENKINSTOKEN = ''
 
 
 # Route without <ALERTID> are for LI, with are for vROps
@@ -33,10 +33,10 @@ def jenkins(ALERTID=None, JOBNAME=None, TOKEN=None):
         return ("Parameters must be set, please edit the shim!", 500, None)
 
     # We need to make the Jenkins URL
-    if TOKEN:
-        URL = JENKINSURL + "/job/" + JOBNAME + "/build?token=" + TOKEN
-    else:
-        URL = JENKINSURL + "/job/" + JENKINSJOBNAME + "/build?token=" + JENKINSTOKEN
+    #if TOKEN:
+    #    URL = JENKINSURL + "/job/" + JOBNAME + "/build?token=" + TOKEN
+    #else:
+    #    URL = JENKINSURL + "/job/" + JENKINSJOBNAME + "/build?token=" + JENKINSTOKEN
 
     # No need to parse the request as we just want to run a job
     #a = parse(request)
@@ -46,9 +46,22 @@ def jenkins(ALERTID=None, JOBNAME=None, TOKEN=None):
     #    "type": "link",
     #    "url": a['url'],
     #}
-    payload = ''
+    URL = JENKINSURL
+    payload = {
+                "body" : "[[PizzaHouse]](http://url_to_text) You have a new Pizza order.",
+                "connectColor" : "#FAC11B",
+                "connectInfo" : [{
+                "title" : "Topping",
+                "description" : "Pepperoni"
+                },
+                {
+                "title": "Location",
+                "description": "Empire State Building, 5th Ave, New York",
+                "imageUrl": "http://url_to_text"
+                }]
+               }
 
-    headers = ''
+    headers = {'Accept': 'application/vnd.tosslab.jandi-v2+json' , 'Content-Type': 'application/json'}
 
     if headers:
         return callapi(URL, 'post', json.dumps(payload), headers)
