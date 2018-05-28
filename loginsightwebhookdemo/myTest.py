@@ -60,11 +60,7 @@ def template(ALERTID=None, TOKEN=None, EMAIL=None):
     a = parse(request)
 
     payload = {
-        "body": a['info'],
-        "connectColor" : "#FAC11B",
-        "connectInfo" :[{
-            "title": a['AlertName'],
-        }]
+        "body": a['info']
     }
 
     # Defaults to Content-type: application/json
